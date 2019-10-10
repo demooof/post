@@ -1,10 +1,10 @@
 $(function () {
     $('#register').on('click', function () {
         let __email = $('#email').val();
-        console.log('email: {}', __email);
+        console.log('email: ', __email);
         $.ajax({
             type: 'POST',
-            url: '/emailCheck.json',
+            url: '/forum/emailCheck.json',
             data: { email: __email },
             success: function(res) {
                 let __code = res.code;

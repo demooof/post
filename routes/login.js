@@ -24,7 +24,7 @@ router.post('/loginValidate.html', async function (req, res) {
             req.session.isLogin = true;
             req.session.email = __user.email;
             req.session.userId = __user._id;
-            res.redirect('/index.html');
+            res.redirect('/forum/index.html');
         } else {
             res.render('login', {
                 title: 'Login Page',

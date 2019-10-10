@@ -5,7 +5,7 @@ $(function() {
         console.log(__info);
         $.ajax({
             type: 'POST',
-            url: '/backend/post/save.json',
+            url: '/forum//backend/post/save.json',
             data: __info,
             success: function(res) {
                 console.log('result: ', res);

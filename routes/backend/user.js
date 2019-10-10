@@ -61,7 +61,7 @@ router.post('/username/modify.html', async function (req, res) {
         req.session.username = __info.username;
         req.session.email = __info.email;
         req.session.userId = __info._id;
-        res.redirect("/backend/user/settings.html");
+        res.redirect("/forum/backend/user/settings.html");
     }
 });
 
@@ -276,7 +276,7 @@ router.post('/avatar/modify.html', async function (req, res) {
             });
 
             // refresh current page
-            res.redirect('/backend/user/avatar.html');
+            res.redirect('/forum/backend/user/avatar.html');
         }
     });
 });

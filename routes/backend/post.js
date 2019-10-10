@@ -126,7 +126,7 @@ router.get('/delete.html', async function(req, res) {
     await Post.findByIdAndDelete({
         _id: __id
     });
-    res.redirect('/backend/post/list.html');
+    res.redirect('/forum/backend/post/list.html');
 });
 
 module.exports = router;

@@ -4,7 +4,7 @@ $(function(){
         console.log('publish comment: ', __commentInfo);
         $.ajax({
             type: 'POST',
-            url: '/comment/publish.json',
+            url: '/forum/comment/publish.json',
             data: __commentInfo,
             success: function(res) {
                 console.log(res);

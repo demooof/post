@@ -53,12 +53,12 @@ router.post('/emailCheck.json', async function (req, res) {
             let transporter = nodemailer.createTransport(config.emailConfig);
             const sendHtml = `<div>
             <div><h2>please click this link to activate you account</h2>
-            <a href="${config.baseName}/account/activate.html?activateCode=${__activateCode}&email=${__checkEmail}">activate</a></div>
+            <a href="${config.baseName}/forum/account/activate.html?activateCode=${__activateCode}&email=${__checkEmail}">activate</a></div>
             </div>`;
 
             const mailOptions = {
                 // the sender address
-                from: 'dh8913058@163.com',
+                from: config.emailConfig.auth.user,
                 // receiver email address
                 to: __checkEmail,
                 // email subject
@@ -76,7 +76,7 @@ router.post('/emailCheck.json', async function (req, res) {
                     __result.info = "Please go to you email to activate your account!";
                     res.json(__result);
                 }
-                // console.log('Message sent: ' + info.response);
+                console.log('Message sent: ' + info);
             });
         }
     }
@@ -129,7 +129,7 @@ router.get('/account/activate.html', async function (req, res) {
             } catch (err) {
                 console.log('error...');
             }
-            res.redirect('/backend/user/settings.html');
+            res.redirect('/forum/backend/user/settings.html');
         }
     }
 });

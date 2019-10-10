@@ -1,21 +1,18 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var session = require('express-session');
-var bodyParser = require('body-parser');
-var ueditor = require("ueditor");
-var config = require('./routes/config/config');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const session = require('express-session');
+const bodyParser = require('body-parser');
+const ueditor = require("ueditor");
+const fs = require('fs');
 
 /**
  * load all router
  */
-const frontendRouter = require('./routes/frontend');
-const backendRouter = require('./routes/backend/backend');
-const loginRouter = require('./routes/login');
-const logoutRouter = require('./routes/logout');
-const registerRouter = require('./routes/register');
+const forumRouter = require('./routes/forum');
+
 
 var app = express();
 
@@ -32,6 +29,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 // set the uploaded file path
 app.use("/uploads", express.static("uploads"))
+app.use(express.static(path.join(__dirname, 'statics')));
 
 app.use(session({
   secret: 'recommand 128 bytes random string', // a 128 random character string is recommended
@@ -49,9 +47,9 @@ app.use(function (req, res, next) {
   let __url = req.originalUrl;
   let __arr = __url.split("/");
   // console.log(__arr, req.session.isLogin);
-  if (__arr && __arr[1] == "backend" && !req.session.isLogin) {
+  if (__arr && __arr[2] == "backend" && !req.session.isLogin) {
     console.log('It does not sign in...');
-    return res.redirect("/login.html");
+    return res.redirect("/forum/login.html");
   }
   next();
 });
@@ -89,15 +87,43 @@ app.use("/ueditor/ue", ueditor('uploads/', function(req, res, next) {
     res.redirect('/ueditor/ueditor.config.json')
 }}));
 
+/**
+ * football team website part
+ */
+let cache = [];// Array is OK!
+cache[0] = fs.readFileSync(__dirname + '/statics/index.html');
+cache[1] = fs.readFileSync(__dirname + '/statics/team.html');
+app.get('/', (req, res) => {
+  res.setHeader('Content-Type', 'text/html');
+  res.send(cache[0]);
+});
+
+app.get('/team', (req, res) => {
+  res.setHeader('Content-Type', 'text/html');
+  res.send(cache[1]);
+});
+
+app.get('/players', function getPlayerData(res, uri) {
+  playerName = "Cristiano Ronaldo";
+  function getPlayerData(playerName){
+    var str = "SELECT * FROM team WHERE playerName = '"+playerName + "';" ;
+  
+    client.query(str, (err, res) => {
+      //if (err) throw err;
+      for (let row of res.rows) {
+        console.log(JSON.stringify(row));
+        var result = JSON.stringify(row);
+      }
+      client.end();
+    });
+  }
+});
+
 
 /**
  * router mappings
  */
-app.use('/', frontendRouter);
-app.use('/', loginRouter)
-app.use('/', logoutRouter)
-app.use('/', registerRouter)
-app.use('/backend', backendRouter);
+app.use('/forum', forumRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

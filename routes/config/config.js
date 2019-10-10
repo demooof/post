@@ -5,14 +5,15 @@ const emailConfig = {
     port: 465,
     auth: {
         // your email address
-        user: 'm835343134@163.com',
+        user: '',
         // your email login password
-        pass: 'frank83739969',
+        pass: '',
     }
 };
 
 /**
- * web site hostname
+ * web site hostname, set the hostname:port if you want
+ * to deploy this system to the remote server
  */
 const baseName = 'http://127.0.0.1:3000';
 

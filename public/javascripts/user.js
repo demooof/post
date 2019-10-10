@@ -9,7 +9,7 @@ $(function () {
         } else {
             $.ajax({
                 type: 'POST',
-                url: '/backend/user/password/modify.json',
+                url: '/forum/backend/user/password/modify.json',
                 data: { _id: __id, password: __password1 },
                 success: function(res) {
                     let __html = '';
